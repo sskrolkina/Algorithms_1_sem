@@ -1,45 +1,45 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
-void heap(int a[],int n,int i){
-    int mama = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
+void radixsort(vector<string> &arr, int m, int k,int i) {
+    vector<string> res(arr.size(),"");
+    vector<int> counters(26,0);
+    for (int j = 0; j < arr.size(); j++) {
+        counters[arr[j][i] - 'a']++;
+    }
+    int tmp, count = 0;
+    for (int j = 0; j < counters.size(); j++) {
+        tmp = counters[j];
+        counters[j] = count;
+        count += tmp;
+    }
+    for (int j = 0; j < arr.size(); j++) {
+        res[ counters[arr[j][i] - 'a'] ] = arr[j];
+        counters[arr[j][i] - 'a']++;
+    }
+    arr = res;
+}
 
-    if(l < n && a[l] > a[mama]){
-        mama = l;
+
+
+int main()
+{
+    ifstream inp("radixsort.in");
+    int n, m, k;
+    inp >> n >> m >> k;
+    vector<string> a(n,"");
+    for (int i = 0; i < n; i++) {
+        inp >> a[i];
     }
-    if(r < n && a[r] > a[mama]){
-        mama = r;
+    inp.close();
+    for(int i = m - 1 ; i > m - k - 1 ; i-- )
+        radixsort(a, m, k, i);
+    ofstream outp("radixsort.out");
+    for (int i = 0; i < n; i++) {
+        outp << a[i] << endl;
     }
-    if(mama != i){
-        swap(a[i],a[mama]);
-        heap(a,n,mama);
-    }
-}
-void heapsort(int a[],int n){
-    for(int i = n / 2 - 1; i >= 0; i--){
-        heap(a,n,i);
-    }
-    for(int i = n - 1; i > 0;i--){
-        swap(a[0],a[i]);
-        heap(a,i,0);
-    }
-}
-int main(){
-    ifstream fin("sort.in");
-    ofstream fout("sort.out");
-    int n;
-    fin >> n;
-    int *meh = new int[n];
-    for(int i = 0; i < n;i++){
-        fin >> meh[i];
-    }
-    heapsort(meh,n);
-    for(int i = 0; i < n;i++){
-        fout << meh[i] << " ";
-    }
-    return 0;
+    outp.close();
 }
