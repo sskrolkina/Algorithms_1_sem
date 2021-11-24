@@ -48,9 +48,9 @@ int main(){
     }
     fin >> t_size;
     for(int i = 0;i<t_size;i++){
-        int call;
-        fin >> call;
-        pair<int,int>result = bin(call,items);
+        int yes;
+        fin >> yes;
+        pair<int,int>result = bin(yes,items);
         fout << result.first << " " << result.second << "\n";
     }
     return 0;
