@@ -1,3 +1,5 @@
+//лучше сделать через списки
+
 #include <iostream>
 #include <stack>
 #include <fstream>
